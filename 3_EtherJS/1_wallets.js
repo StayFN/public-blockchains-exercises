@@ -54,6 +54,8 @@ function exit() {
 // Hint: never created a function in JS? Check this page:
 // https://javascript.info/function-basics
 
+// Hint: German keyboard curly brackets: Alt-gr-7 (open), Alt-gr-8 (close).
+
 let exercise = 0;
 
 // Your code here!
