@@ -245,7 +245,8 @@ exercise = 5;
 
 let mnemonic = wallet.mnemonic.phrase;
 
-let path, myWallet;
+let path;
+let myWallet;
 for (let i = 0; i < 10; i++) {
   path = `${baseDevPath}${i}`;
   myWallet = ethers.HDNodeWallet.fromPhrase(mnemonic, path);

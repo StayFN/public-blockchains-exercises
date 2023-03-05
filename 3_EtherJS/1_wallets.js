@@ -39,8 +39,11 @@
 // be executed, until you tell the process to stop. 
 
 // This line will tell the process to stop.
-process.exit(0);
-console.log('I am sad line...I will not be printed to console :(');
+
+function exit() {
+    process.exit(0);
+    console.log('I am sad line...I will not be printed to console :(');
+}
 
 // a. Move the sad line above and below `process.exit(0);` to check that the
 // process stops where it is intended to. When you are done, comment out both
@@ -150,9 +153,9 @@ exercise = '3b';
 
 
 // Solution 1. forEach.
-variablesToCheck.forEach(v => {
+//variablesToCheck.forEach(v => {
     // Your code here!
-});
+//});
 
 // Solution 2. For-loop.
 

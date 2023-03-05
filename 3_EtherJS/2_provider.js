@@ -10,10 +10,11 @@
 // Exercise 0. Require the `dotenv` and `ethers` package.
 /////////////////////////////////////////////////////////
 
-// Hint: As you did in file 1_wallet.
+// Hint: As you did in file 1_wallet.;
 
+require('dotenv').config();
+const ethers = require("ethers");
 // Your code here!
-
 
 // Exercise 1. Connect to Mainnet (a.k.a welcome async!).
 /////////////////////////////////////////////////////////
@@ -37,16 +38,19 @@
 // code in JavaScript.
 
 // a. Create a JSON RPC provider and connect to the Ethereum Mainnet.  
+//Create a JSON RPC provider and connect to the Etherum Mainnet.
 
 // Hint: check EthersJS docs for the method `JsonRpcProvider` and what 
 // parameters it needs (nested hint: you need something from the .env file).
 
+//implement JsonRpcProvider
+
 
 // Your code here!
+const mainnetProvider = new ethers.JsonRpcProvider(process.env.INFURA_MAINNET + process.env.INFURA_KEY);
 
 
 // b. Verify that the network's name is "mainnet" and the chain id that theis 1.
-
 // Hint: `getNetwork()`.
 
 // Hint2: the value of chain id returned by Ethers JS is of type "BigInt". 
@@ -59,22 +63,17 @@
 
 // This is an asynchronous anonymous self-executing function. It is a ugly
 // construct, but it allows you to use await inside its body.
-(async () => {
-    
-    // Your code maybe here!
-
-})();
 
 // However, the async function could also be named, and the result is:
 const network = async () => {
     
-    // Your code here!
-
+    response = await mainnetProvider.getNetwork();
+    console.log(response.name);
 };
 
 // which you can then call:
 
-// network();
+network();
 
 // The second (less compact) notation has the advantage that we can invoke
 // the code only when needed, so it is preferred in this exercise sheet.
@@ -98,11 +97,12 @@ const network = async () => {
 // // Look up the current block number
 const blockNum = async () => {
     
-    // Your code here!
+    blocknumber = await mainnetProvider.getBlockNumber();
 
+    console.log(blocknumber)
 };
 
-// blockNum();
+blockNum();
 
 // b. The Ethereum mainnet is one of the most secure blockchains in the world.
 // The testnets of Ethereum are a bit less secure because they might have 
@@ -111,14 +111,24 @@ const blockNum = async () => {
 
 // Connect to the Goerli test net, get the latest block number and print
 // the difference in chain length with mainnet.
-
+const goerliProvider = new ethers.JsonRpcProvider(process.env.INFURA_GOERLI + process.env.INFURA_KEY);
 
 // Look up the current block number in Mainnet and Goerli.
 const blockDiff = async () => {
 
+    mainblocknumber = await mainnetProvider.getBlockNumber();
+    console.log(`mainblocknumber: \t\t\t${mainblocknumber}`)
+
+    goerliblocknumber = await goerliProvider.getBlockNumber();
+    console.log(`goerliblocknumber: \t ${goerliblocknumber}`)
+
+    console.log(`mainblocknumber - goerliblocknumber = ${mainblocknumber - goerliblocknumber}`)
+
+    //create a formatted string
+    //console.log(`mainblocknumber - goerliblocknumber = ${mainblocknumber - goerliblocknumber}`)
 };
 
-// blockDiff();
+blockDiff();
 
 
 // Exercise 3. Block time.
@@ -176,9 +186,9 @@ const checkBlockTime = async (providerName = "mainnet", blocks2check = 3) => {
     
 };
 
-// checkBlockTime("Mainnet");
+//checkBlockTime("Mainnet");
 
-// checkBlockTime("Goerli");
+//checkBlockTime("Goerli");
 
 // b. Bonus. The checkBlockTime function can be rewritten more efficiently 
 // using the Observer pattern offer by EtherS JS and listening to the 
@@ -218,11 +228,13 @@ const checkBlockTime2 = async (providerName = "mainnet", blocks2check = 3) => {
 
 const blockInfo = async () => {
     
-    // Your code here!
-
+    blocknumber = await mainnetProvider.getBlockNumber();
+    block = await mainnetProvider.getBlock(blocknumber);
+    console.log(block.transactions.length);
+    mainnetProvider.getTransactionReceipt(block.transactions[0]).then(console.log);
 };
 
-// blockInfo();
+blockInfo();
 
 // Exercise 5. ENS names.
 //////////////////////////
@@ -276,6 +288,7 @@ const balance = async (ensName = "unima.eth") => {
 // LINK contract.
 const linkAddress = '0x326c977e6efc84e512bb9c30f76e30c160ed06fb';
 
+//const { ethers } = require('ethers');
 // At the address, there is only bytecode. So we need to tell Ethers JS, what
 // methods can be invoked. To do so, we pass the Application Binary Interface
 // (ABI) of the contract, available at Etherscan. For your convenience, 
