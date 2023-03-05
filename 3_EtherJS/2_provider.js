@@ -73,7 +73,7 @@ const network = async () => {
 
 // which you can then call:
 
-network();
+//network();
 
 // The second (less compact) notation has the advantage that we can invoke
 // the code only when needed, so it is preferred in this exercise sheet.
@@ -102,7 +102,7 @@ const blockNum = async () => {
     console.log(blocknumber)
 };
 
-blockNum();
+//blockNum();
 
 // b. The Ethereum mainnet is one of the most secure blockchains in the world.
 // The testnets of Ethereum are a bit less secure because they might have 
@@ -128,7 +128,7 @@ const blockDiff = async () => {
     //console.log(`mainblocknumber - goerliblocknumber = ${mainblocknumber - goerliblocknumber}`)
 };
 
-blockDiff();
+//blockDiff();
 
 
 // Exercise 3. Block time.
@@ -200,11 +200,40 @@ const checkBlockTime = async (providerName = "mainnet", blocks2check = 3) => {
 
 const checkBlockTime2 = async (providerName = "mainnet", blocks2check = 3) => {
 
-    // Your code here!
+    let provider = providerName.toLowerCase() === "mainnet" ? 
+    mainnetProvider : goerliProvider;
+
+        // Get initial block number and timestamp.
+        let d = Date.now();
+        let blockNumber = await provider.getBlockNumber();
+        console.log(providerName, 'Current Block num:', blockNumber);
+    
+        // Keep track of how many blocks to check.
+        let blocksChecked = 0;
+    
+        // Poll the blockchain every second to check for a new block number.
+        provider.on("block", (newBlockNumber) => {         
+            // Compare block numbers.
+            if (newBlockNumber !== blockNumber) {
+                // Check time.
+                let d2 = Date.now();
+                let timeDiffSeconds = (d2 - d) / 1000;
+                console.log(providerName, "New Block num:", newBlockNumber);
+                console.log(providerName, "It took: ", timeDiffSeconds, "seconds");
+                
+                // Update loop variables.
+                d = d2;
+                if (++blocksChecked >= blocks2check) {
+                    provider.off("block");
+                }
+                blockNumber = newBlockNumber;
+            }
+    
+        });
 
 };
 
-// checkBlockTime2("mainnet");
+//checkBlockTime2("mainnet");
 
 // return;
 
@@ -234,7 +263,7 @@ const blockInfo = async () => {
     mainnetProvider.getTransactionReceipt(block.transactions[0]).then(console.log);
 };
 
-blockInfo();
+//blockInfo();
 
 // Exercise 5. ENS names.
 //////////////////////////
@@ -242,13 +271,13 @@ blockInfo();
 // Resolve the name 'unima.eth' on the Goerli network, then lookup the
 // address.
 
-const ens = async () => {
+const ens = async (ensName) => {
     
-    // Your code here!
-
+    ensAddress = await goerliProvider.resolveName(ensName);
+    console.log("Address: ", ensAddress);
 };
 
-// ens();
+//ens('unima.eth');
 
 
 // Exercise 6. Get ETH balance.
@@ -260,19 +289,23 @@ const ens = async () => {
 // b. Format the balance nicely with the formatEther utility.
 
 // c. Compare the ETH balance for the ENS name "unima.eth" and the balance
-// its address (after resolving it). Are they the same?
+// its address (after resolving it). Are they the same? --> YES
 
 // d. Bonus. What is the balance for the address of Vitalik Buterin, the 
 // creator of Ethereum? 
 // Hint: try vitalik.eth
 
-const balance = async (ensName = "unima.eth") => {
+const balance = async (ensName = "unima.eth", net = "goerli") => {
 
-   // Your code here!
+    let provider = net.toLowerCase() === "mainnet" ? 
+    mainnetProvider : goerliProvider;
 
+    address = await provider.resolveName(ensName);
+    accountbalance = await provider.getBalance(address);
+    console.log(`Balance of ${ensName}: ${ethers.formatEther(accountbalance)}`);
 };
 
-// balance("vitalik.eth");
+//balance("vitalik.eth", "mainnet");
 
 
 // Exercise 7. Get ERC20 Balance.
@@ -304,10 +337,15 @@ const linkABI = require('./link_abi.json');
 
 const link = async () => {
    
-    // Your code here!
+    conobj = new ethers.Contract(linkAddress, linkABI, goerliProvider);
+    unima_bal = await conobj.balanceOf("unima.eth");
+    vitalik_Bal = await conobj.balanceOf("vitalik.eth")
+    console.log("Unima's ERC20 balance: ", unima_bal);
+    console.log("Vitalik's ERC20 balance: ", vitalik_Bal);
+
 };
 
 
-// link();
+link();
 
 
