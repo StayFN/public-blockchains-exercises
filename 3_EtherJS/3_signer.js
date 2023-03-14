@@ -67,7 +67,7 @@ const connect = async() => {
     console.log(nonce);
 };
 
-//connect();
+connect();
 
 // c. Replace the signer created above at exercise 1 with one that takes the 
 // Goerli provider as second parameter. This is necessary even
@@ -126,7 +126,7 @@ const sendTransaction = async () => {
     console.log('Balance for', account2, 'changed from', b2, 'to', updatedB2);
 };
 
-sendTransaction();
+//sendTransaction();
 
 
 // Exercise 5. Meddling with Gas.

@@ -274,10 +274,12 @@ const blockInfo = async () => {
 const ens = async (ensName) => {
     
     ensAddress = await goerliProvider.resolveName(ensName);
-    console.log("Address: ", ensAddress);
+    console.log("ENS Address: ", ensAddress);
+    reversename = await goerliProvider.lookupAddress(ensAddress);
+    console.log("Name: ", reversename);
 };
 
-//ens('unima.eth');
+ens('stungler.eth');
 
 
 // Exercise 6. Get ETH balance.
@@ -297,7 +299,7 @@ const ens = async (ensName) => {
 
 const balance = async (ensName = "unima.eth", net = "goerli") => {
 
-    let provider = net.toLowerCase() === "mainnet" ? 
+    provider = net.toLowerCase() === "mainnet" ? 
     mainnetProvider : goerliProvider;
 
     address = await provider.resolveName(ensName);
@@ -346,6 +348,6 @@ const link = async () => {
 };
 
 
-link();
+//link();
 
 
