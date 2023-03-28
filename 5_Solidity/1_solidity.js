@@ -43,6 +43,9 @@
 
 // a. What is the meaning of the `pragma` directive at the top of the file?
 // Hint: https://solidity-by-example.org/hello-world/
+// the pragma means that the solidity version is 0.8.17
+// the pragma keyword in general means that the compiler will use the specified version of solidity
+
 
 // b. The pragma value must be compatible with the version of solidity
 // in `hardhat.config.js. Try to set the value to a lower or higher number
@@ -52,6 +55,10 @@
 // c. Checkpoint. What is the meaning of that caret symbol (^) ?
 // Hint: https://docs.soliditylang.org/en/develop/layout-of-source-files.html#version-pragma
 // Hint2: https://bytearcher.com/articles/semver-explained-why-theres-a-caret-in-my-package-json/
+
+
+// the caret symbol means that the compiler will use the latest version of solidity that is compatible with the specified version
+// in this case, the compiler will use the latest version of solidity that is compatible with 0.8.17
 
 // c. Before `pragma` there is an important comment tha sets the license of
 // the contract. Pick a license for your contract.
@@ -99,6 +106,7 @@
 // The type uint (used for variable `unlockTime`) is an alias for another type.
 // Change uint to its aliased name for more clarity.
 
+
 // Hint: remember to redeploy the contract after each change.
 
 // b. In Solidity, there are three types of variables:
@@ -114,7 +122,7 @@
 
 // Hint: https://solidity-by-example.org/constants/
 
-// d. You can also optimize your code a bit more, if you declare unlockTime as
+// d. You can also optimize   code a bit more, if you declare unlockTime as
 // immutable, then query it with Ethers.JS.
 
 // Hint: https://solidity-by-example.org/immutable/
