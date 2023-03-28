@@ -2,10 +2,10 @@
 pragma solidity ^0.8.9;
 
 // Uncomment this line to use console.log
-// import "hardhat/console.sol";
+import "hardhat/console.sol";
 
 contract Lock2 {
-    uint public unlockTime;
+    uint256 public unlockTime;
     address payable public owner;
 
     event Withdrawal(uint amount, uint when);
@@ -16,6 +16,8 @@ contract Lock2 {
             "Unlock time should be in the future"
         );
 
+
+        console.log("Lock2 Deployed at %s by %s", block.timestamp, msg.sender);
         unlockTime = _unlockTime;
         owner = payable(msg.sender);
     }
