@@ -14,12 +14,14 @@ pragma solidity ^0.8.17;
 // to hold additional metadata.
 // https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/token/ERC721/extensions/ERC721URIStorage.sol
 
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/utils/Base64.sol";
 // TODO:
 // Other openzeppelin contracts might be useful. Check the Utils!
 // https://docs.openzeppelin.com/contracts/4.x/utilities
+
 
 // Local imports:
 
@@ -32,9 +34,10 @@ import "../BaseAssignment.sol";
 // You contract starts here:
 // You need to inherit from multiple contracts/interfaces.
 contract Assignment2 is BaseAssignment {
+
     using SafeMath for uint256;
     using Strings for uint256;
-
+ 
     constructor() BaseAssignment(0xbb94CBc84004548b9e174955bB4e26a1757cc5C3) {}
 
     string state = "waiting";
@@ -83,7 +86,7 @@ contract Assignment2 is BaseAssignment {
         );
 
         if (actionStartBlock + startMaxTime < getBlockNumber() && keccak256(abi.encodePacked(state)) == keccak256("starting")) {
-            resetGame();
+            checkMaxTime();
         }
 
         uint256 playerId = 1;
@@ -138,10 +141,12 @@ contract Assignment2 is BaseAssignment {
             "Player1 already played"
         );
         require(
-            !checkMaxTime(),
+            actionStartBlock + playMaxTime > getBlockNumber(),
             "play() can only be invoked within the playMaxTime"
         );
         
+
+
 
         if (msg.sender == player1) {
             player1Choice = choice;
